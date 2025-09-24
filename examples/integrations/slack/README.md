@@ -1,76 +1,76 @@
-# Slack Integration
+# Slack 集成
 
-Steps to create and configure a Slack bot:
+创建和配置 Slack 机器人的步骤：
 
-1. Create a Slack App:
-    *   Go to the Slack API: https://api.slack.com/apps
-    *   Click on "Create New App".
-    *   Choose "From scratch" and give your app a name and select the workspace.
-    *   Provide a name and description for your bot (these are required fields).
-2. Configure the Bot:
-    *   Navigate to the "OAuth & Permissions" tab on the left side of the screen.
-    *   Under "Scopes", add the necessary bot token scopes (add these "chat:write", "channels:history", "im:history").
-3. Enable Event Subscriptions:
-    *   Navigate to the "Event Subscriptions" tab.
-    *   Enable events and add the necessary bot events (add these "message.channels", "message.im").
-    *   Add your request URL (you can use ngrok to expose your local server if needed). [See how to set up ngrok](#installing-and-starting-ngrok).
-    *   **Note:** The URL provided by ngrok is ephemeral and will change each time ngrok is started. You will need to update the request URL in the bot's settings each time you restart ngrok. [See how to update the request URL](#updating-the-request-url-in-bots-settings).
-4. Add the bot to your Slack workspace:
-    *   Navigate to the "OAuth & Permissions" tab.
-    *   Under "OAuth Tokens for Your Workspace", click on "Install App to Workspace".
-    *   Follow the prompts to authorize the app and add it to your workspace.
-5. Set up environment variables:
-    *   Obtain the `SLACK_SIGNING_SECRET`:
-        *   Go to the Slack API: https://api.slack.com/apps
-        *   Select your app.
-        *   Navigate to the "Basic Information" tab.
-        *   Copy the "Signing Secret".
-    *   Obtain the `SLACK_BOT_TOKEN`:
-        *   Go to the Slack API: https://api.slack.com/apps
-        *   Select your app.
-        *   Navigate to the "OAuth & Permissions" tab.
-        *   Copy the "Bot User OAuth Token".
-    *   Create a `.env` file in the root directory of your project and add the following lines:
-        ```env
-        SLACK_SIGNING_SECRET=your-signing-secret
-        SLACK_BOT_TOKEN=your-bot-token
-        ```
-6. Invite the bot to a channel:
-    *   Use the `/invite @your-bot-name` command in the Slack channel where you want the bot to be active.
-7. Run the code in `examples/slack_example.py` to start the bot with your bot token and signing secret.
-8. Write e.g. "$bu what's the weather in Tokyo?" to start a browser-use task and get a response inside the Slack channel.
+1. 创建 Slack 应用：
+* 前往 Slack API：https://api.slack.com/apps
+* 点击“创建新应用”。
+* 选择“从头开始”，为您的应用命名并选择工作区。
+* 为您的机器人提供名称和描述（这些是必填字段）。
+2. 配置机器人：
+* 导航到屏幕左侧的“OAuth 和权限”选项卡。
+* 在“范围”下，添加必要的机器人令牌范围（添加“chat:write”、“channels:history”和“im:history”）。
+3. 启用事件订阅：
+* 导航到“事件订阅”选项卡。
+* 启用事件并添加必要的机器人事件（添加“message.channels”和“message.im”）。
+* 添加您的请求 URL（如有需要，您可以使用 ngrok 公开您的本地服务器）。[查看如何设置 ngrok](#installing-and-starting-ngrok)。
+* **注意**：ngrok 提供的 URL 是临时的，每次启动 ngrok 时都会更改。每次重启 ngrok 时，您都需要在机器人的设置中更新请求 URL。[查看如何更新请求 URL](#updating-the-request-url-in-bots-settings)。
+4. 将机器人添加到您的 Slack 工作区：
+* 导航到“OAuth 和权限”选项卡。
+* 在“您的工作区的 OAuth 令牌”下，点击“将应用安装到工作区”。
+* 按照提示授权应用并将其添加到您的工作区。
+5. 设置环境变量：
+* 获取 `SLACK_SIGNING_SECRET`：
+* 前往 Slack API：https://api.slack.com/apps
+* 选择您的应用。
+* 导航至“基本信息”选项卡。
+* 复制“签名密钥”。
+* 获取 `SLACK_BOT_TOKEN`：
+* 前往 Slack API：https://api.slack.com/apps
+* 选择您的应用。
+* 导航至“OAuth 和权限”选项卡。
+* 复制“机器人用户 OAuth 令牌”。
+* 在项目根目录中创建一个 `.env` 文件，并添加以下代码：
+```env
+SLACK_SIGNING_SECRET=你的签名密钥
+SLACK_BOT_TOKEN=你的机器人令牌
+```
+6. 邀请机器人加入频道：
+* 在您希望机器人处于活动状态的 Slack 频道中使用 `/invite @你的机器人名称` 命令。
+7. 运行 `examples/slack_example.py` 中的代码，使用您的机器人令牌和签名密钥启动机器人。
+8. 例如，输入“$bu 东京的天气怎么样？”，启动一个浏览器使用任务并在 Slack 频道内获取响应。
 
-## Installing and Starting ngrok
+## 安装和启动 ngrok
 
-To expose your local server to the internet, you can use ngrok. Follow these steps to install and start ngrok:
+要将本地服务器暴露到互联网，您可以使用 ngrok。请按照以下步骤安装并启动 ngrok：
 
-1. Download ngrok from the official website: https://ngrok.com/download
-2. Create a free account and follow the official steps to install ngrok.
-3. Start ngrok by running the following command in your terminal:
-    ```sh
-    ngrok http 3000
-    ```
-    Replace `3000` with the port number your local server is running on.
+1. 从官方网站下载 ngrok：https://ngrok.com/download
+2. 创建免费帐户并按照官方步骤安装 ngrok。
+3. 在终端中运行以下命令启动 ngrok：
+```sh
+ngrok http 3000
+```
+将 `3000` 替换为您本地服务器运行的端口号。
 
-## Updating the Request URL in Bot's Settings
+## 在机器人设置中更新请求 URL
 
-If you need to update the request URL (e.g., when the ngrok URL changes), follow these steps:
+如果您需要更新请求 URL（例如，当 ngrok URL 发生变化时），请按照以下步骤操作：
 
-1. Go to the Slack API: https://api.slack.com/apps
-2. Select your app.
-3. Navigate to the "Event Subscriptions" tab.
-4. Update the "Request URL" field with the new ngrok URL. The URL should be something like: `https://<ngrok-id>.ngrok-free.app/slack/events`
-5. Save the changes.
+1. 前往 Slack API：https://api.slack.com/apps
+2. 选择您的应用。
+3. 导航到“事件订阅”选项卡。
+4. 使用新的 ngrok URL 更新“请求 URL”字段。 URL 应类似于：`https://<ngrok-id>.ngrok-free.app/slack/events`
+5. 保存更改。
 
-## Installing Required Packages
+## 安装所需软件包
 
-To run this example, you need to install the following packages:
+要运行此示例，您需要安装以下软件包：
 
 - `fastapi`
 - `uvicorn`
 - `slack_sdk`
 
-You can install these packages using pip:
+您可以使用 pip 安装这些软件包：
 
 ```sh
 pip install fastapi uvicorn slack_sdk
