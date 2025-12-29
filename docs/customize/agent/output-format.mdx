@@ -1,45 +1,45 @@
 ---
-title: "Output Format"
-description: ""
-icon: "arrow-right-to-bracket"
-mode: "wide"
+标题：“输出格式”
+描述：“”
+图标：“箭头-右向括号”
+模式：“广角”
 ---
 
-## Agent History
+## 特工历史
 
-The `run()` method returns an `AgentHistoryList` object with the complete execution history:
+“run（）”方法返回一个包含完整执行历史的“AgentHistoryList”对象：
 
 ```python
 history = await agent.run()
 
-# Access useful information
-history.urls()                    # List of visited URLs
-history.screenshot_paths()        # List of screenshot paths  
-history.screenshots()             # List of screenshots as base64 strings
-history.action_names()            # Names of executed actions
-history.extracted_content()       # List of extracted content from all actions
-history.errors()                  # List of errors (with None for steps without errors)
-history.model_actions()           # All actions with their parameters
-history.model_outputs()           # All model outputs from history
-history.last_action()             # Last action in history
+# 获取有用信息
+history.urls()                    # 访问网址列表
+history.screenshot_paths()        # 截图路径列表
+history.screenshots()             # 作为base64字符串的截图列表
+history.action_names()            # 执行行动的名称
+history.extracted_content()       # 从所有动作提取内容列表
+history.errors()                  # 错误列表（步骤中无错误为 N）
+history.model_actions()           # 所有行为及其参数
+history.model_outputs()           # 所有模型输出均来自历史
+history.last_action()             # 历史上的最后一击
 
-# Analysis methods
-history.final_result()            # Get the final extracted content (last step)
-history.is_done()                 # Check if agent completed successfully
-history.is_successful()           # Check if agent completed successfully (returns None if not done)
-history.has_errors()              # Check if any errors occurred
-history.model_thoughts()          # Get the agent's reasoning process (AgentBrain objects)
-history.action_results()          # Get all ActionResult objects from history
-history.action_history()          # Get truncated action history with essential fields
-history.number_of_steps()         # Get the number of steps in the history
-history.total_duration_seconds()  # Get total duration of all steps in seconds
+# 分析方法
+history.final_result()            # 获取最终提取的内容（最后一步）
+history.is_done()                 # 检查代理人是否成功完成
+history.is_successful()           # 检查代理是否成功完成（未完成则返回 无）
+history.has_errors()              # 检查是否有错误发生
+history.model_thoughts()          # 获取特工的推理过程（特工布雷恩反对）
+history.action_results()          # 从历史中获取所有ActionResult对象
+history.action_history()          # 用本要字段获取截断动作历史
+history.number_of_steps()         # 获取历史中的步骤数
+history.total_duration_seconds()  # 按秒计计所有步的总时长
 
-# Structured output (when using output_model_schema)
-history.structured_output         # Property that returns parsed structured output
+# 结构化输出（使用output_model_schema时）
+history.structured_output         # 返回解析后的结构化输出的属性
 ```
 
-See all helper methods in the [AgentHistoryList source code](https://github.com/browser-use/browser-use/blob/main/browser_use/agent/views.py#L301).
+请参见 [AgentHistoryList 源代码]（https://github.com/browser-use/browser-use/blob/main/browser_use/agent/views.py#L301）中的所有辅助方法。
 
-## Structured Output
+## 结构化输出
 
-For structured output, use the `output_model_schema` parameter with a Pydantic model. [Example](https://github.com/browser-use/browser-use/blob/main/examples/features/custom_output.py).
+对于结构化输出，使用带有Pydantic模型的“output_model_schema”参数。[示例]（https://github.com/browser-use/browser-use/blob/main/examples/features/custom_output.py）。

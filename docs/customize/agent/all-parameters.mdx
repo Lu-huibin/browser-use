@@ -1,58 +1,60 @@
 ---
-title: "All Parameters"
-description: "Complete reference for all agent configuration options"
-icon: "sliders"
-mode: "wide"
+标题：“所有参数”
+描述：“所有代理配置选项的完整参考”
+图标：“滑块”
+模式：“广角”
 ---
 
-## Available Parameters
+## 可用参数
 
-### Core Settings
-- `tools`: Registry of <a href = "../tools/available">tools</a> the agent can call. <a href = "../tools/basics">Example</a>
-- `skills` (or `skill_ids`): List of skill IDs to load (e.g., `['skill-uuid']` or `['*']` for all). Requires `BROWSER_USE_API_KEY`. <a href = "../skills/basics">Docs</a>
-- `browser`: Browser object where you can specify the browser settings.
-- `output_model_schema`: Pydantic model class for structured output validation. [Example](https://github.com/browser-use/browser-use/blob/main/examples/features/custom_output.py)
+### 核心设定
+- 'tools'：代理可以调用的 <a href = “../tools/available”>tools 的注册表</a>。<a href = “../tools/basics”>示例</a>
+- “技能”（或称“skill_ids”）：需加载的技能ID列表（例如，所有技能的“['skill-uuid']' 或”['*']''）。需要“BROWSER_USE_API_KEY”。<a href = “../技能/基础”>Docs</a>
+- “browser”：浏览器对象，可以指定浏览器设置。
+- 'output_model_schema'：用于结构化输出验证的pydantic模型类。[示例]（https://github.com/browser-use/browser-use/blob/main/examples/features/custom_output.py）
 
-### Vision & Processing
-- `use_vision` (default: `"auto"`): Vision mode - `"auto"` includes screenshot tool but only uses vision when requested, `True` always includes screenshots, `False` never includes screenshots and excludes screenshot tool
-- `vision_detail_level` (default: `'auto'`): Screenshot detail level - `'low'`, `'high'`, or `'auto'`
-- `page_extraction_llm`: Separate LLM model for page content extraction. You can choose a small & fast model because it only needs to extract text from the page (default: same as `llm`)
+### 视觉与处理
+- “use_vision”（默认：“自动”）：视觉模式 - “自动”包含截图工具，但仅在请求时使用视觉，“真”始终包含截图，“虚假”不包含截图且排除截图工具
+- “vision_detail_level”（默认：“自动”）：截图细节级别——“低”、“高”或“自动”
+- “page_extraction_llm”：用于页面内容提取的独立大型语言模型。你可以选择小巧且快速的模型，因为它只需要从页面中提取文本（默认：和“llm”一样）。
 
-### Fallback & Resilience
-- `fallback_llm`: Backup LLM to use when the primary LLM fails. The primary LLM will first exhaust its own retry logic (typically 5 attempts with exponential backoff), and only then switch to the fallback. Triggers on rate limits (429), authentication errors (401), payment/credit errors (402), or server errors (500, 502, 503, 504). Once switched, the fallback is used for the rest of the run. [Example](https://github.com/browser-use/browser-use/blob/main/examples/features/fallback_model.py)
+### 后备与韧性
+- “fallback_llm”：主LLM失效时使用的备份LLM。主LLM会先用尽自己的重试逻辑（通常5次尝试，并带指数退回），然后才切换到后备。
+触发速率限制（429）、认证错误（401）、支付/信用错误（402）或服务器错误（500、502、503、504）。切换后，备份系统会用于剩余的运行。
+[示例]（https://github.com/browser-use/browser-use/blob/main/examples/features/fallback_model.py）
 
-### Actions & Behavior
-- `initial_actions`: List of actions to run before the main task without LLM. [Example](https://github.com/browser-use/browser-use/blob/main/examples/features/initial_actions.py)
-- `max_actions_per_step` (default: `4`): Maximum actions per step, e.g. for form filling the agent can output 4 fields at once. We execute the actions until the page changes.
-- `max_failures` (default: `3`): Maximum retries for steps with errors
-- `final_response_after_failure` (default: `True`): If True, attempt to force one final model call with intermediate output after max_failures is reached
-- `use_thinking` (default: `True`): Controls whether the agent uses its internal "thinking" field for explicit reasoning steps.
-- `flash_mode` (default: `False`): Fast mode that skips evaluation, next goal and thinking and only uses memory. If `flash_mode` is enabled, it overrides `use_thinking` and disables the thinking process entirely. [Example](https://github.com/browser-use/browser-use/blob/main/examples/getting_started/05_fast_agent.py)
+### 行动与行为
+- “initial_actions”：在主任务前执行的作列表，无需LLM。[示例]（https://github.com/browser-use/browser-use/blob/main/examples/features/initial_actions.py）
+- 'max_actions_per_step'（默认：'4'）：每步最大动作，例如填写表单时，代理可一次输出4个字段。我们执行这些动作直到页面切换。
+- 'max_failures'（默认：'3'）：错误步骤的最大重试次数
+- 'final_response_after_failure'（默认：'True'）：如果为真，尝试在达到max_failures后强制最后一次带有中间输出的模型调用
+- “use_thinking”（默认：“真”）：控制智能体是否使用其内部“思维”场进行显式推理步骤。
+- “flash_mode”（默认：“False”）：快速模式，跳过评估、下一个目标和思考，只使用记忆。如果启用了“flash_mode”，它会覆盖“use_thinking”，完全关闭思考过程。[示例]（https://github.com/browser-use/browser-use/blob/main/examples/getting_started/05_fast_agent.py）
 
-### System Messages
-- `override_system_message`: Completely replace the default system prompt. 
-- `extend_system_message`: Add additional instructions to the default system prompt. [Example](https://github.com/browser-use/browser-use/blob/main/examples/features/custom_system_prompt.py)
+### 系统消息
+- 'override_system_message'：完全替换默认系统提示。
+- “extend_system_message”：在默认系统提示符中添加额外指令。[示例]（https://github.com/browser-use/browser-use/blob/main/examples/features/custom_system_prompt.py）
 
-### File & Data Management
-- `save_conversation_path`: Path to save complete conversation history
-- `save_conversation_path_encoding` (default: `'utf-8'`): Encoding for saved conversations
-- `available_file_paths`: List of file paths the agent can access
-- `sensitive_data`: Dictionary of sensitive data to handle carefully. [Example](https://github.com/browser-use/browser-use/blob/main/examples/features/sensitive_data.py)
+### 文件与数据管理
+- “save_conversation_path”：保存完整对话历史的路径
+- 'save_conversation_path_encoding'（默认：''utf-8''）：用于保存对话的编码
+- “available_file_paths”：代理可访问的文件路径列表
+- “sensitive_data”：敏感数据词典，需谨慎处理。[示例]（https://github.com/browser-use/browser-use/blob/main/examples/features/sensitive_data.py）
 
-### Visual Output
-- `generate_gif` (default: `False`): Generate GIF of agent actions. Set to `True` or string path
-- `include_attributes`: List of HTML attributes to include in page analysis
+### 视觉输出
+- 'generate_gif'（默认：'False'）：生成代理动作的GIF。设置为“真”或字符串路径
+- 'include_attributes'：页面分析中应包含的HTML属性列表
 
-### Performance & Limits
-- `max_history_items`: Maximum number of last steps to keep in the LLM memory. If `None`, we keep all steps. 
-- `llm_timeout` (default: `90`): Timeout in seconds for LLM calls
-- `step_timeout` (default: `120`): Timeout in seconds for each step
-- `directly_open_url` (default: `True`): If we detect a url in the task, we directly open it.
+### 表演与极限
+- “max_history_items”：LLM内存中最后步骤的最大数值。如果“无”，则保留所有步数。
+- 'llm_timeout'（默认：'90'）：LLM调用超时（秒数）
+- “step_timeout”（默认：'120'）：每步超时，秒数
+- 'directly_open_url'（默认：'True'）：如果我们在任务中检测到一个URL，我们会直接打开它。
 
-### Advanced Options
-- `calculate_cost` (default: `False`): Calculate and track API costs
-- `display_files_in_done_text` (default: `True`): Show file information in completion messages
+### 高级选项
+- 'calculate_cost'（默认：'False'）：计算和跟踪API成本
+- 'display_files_in_done_text'（默认：'True'）：在完成消息中显示文件信息
 
-### Backwards Compatibility
-- `controller`: Alias for `tools` for backwards compatibility.
-- `browser_session`: Alias for `browser` for backwards compatibility.
+### 向下兼容
+- “controller”：用于向下兼容的“tools”别名。
+- “browser_session”：浏览器的别名，用于向下兼容。

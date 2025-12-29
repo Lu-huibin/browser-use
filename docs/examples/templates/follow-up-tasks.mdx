@@ -1,13 +1,13 @@
 ---
-title: "Follow up tasks"
-description: "Follow up tasks with the same browser session."
+title: "后续任务"
+description: "跟进任务时会在同一个浏览器会话中进行。"
 icon: "link"
 mode: "wide"
 ---
 
-## Chain Agent Tasks
+## 链条特工任务
 
-Keep your browser session alive and chain multiple tasks together. Perfect for conversational workflows or multi-step processes.
+保持浏览器会话活跃，并将多个任务串联起来。非常适合对话式工作流程或多步骤流程。
 
 ```python
 from dotenv import load_dotenv
@@ -35,14 +35,13 @@ async def main():
 asyncio.run(main())
 ```
 
-## How It Works
+## 工作原理
 
-1. **Persistent Browser**: `BrowserProfile(keep_alive=True)` prevents browser from closing between tasks
-2. **Task Chaining**: Use `agent.add_new_task()` to add follow-up tasks
-3. **Context Preservation**: Agent maintains memory and browser state across tasks
-4. **Interactive Flow**: Perfect for conversational interfaces 
-5. **Break down long flows**: If you have very long flows, you can keep the browser alive and send new agents to it.
+1. **持久浏览器**：“BrowserProfile（keep_alive=True）”阻止浏览器在任务间关闭
+2. **任务链**：使用“agent.add_new_task（）”添加后续任务
+3. **上下文保持**：代理在任务间维护内存和浏览器状态
+4. **互动流程**：非常适合对话式界面
+5. **拆解长流量**：如果流量非常长，可以保持浏览器存活并向其发送新代理。
 
 <Note>
-The browser session remains active throughout the entire chain, preserving all cookies, local storage, and page state.
-</Note>
+浏览器会话在整个链中保持活跃，保留所有 Cookie、本地存储和页面状态。</Note>

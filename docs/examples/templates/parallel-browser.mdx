@@ -1,7 +1,7 @@
 ---
-title: "Parallel Agents"
-description: "Run multiple agents in parallel with separate browser instances"
-icon: "copy"
+标题：“平行特工”
+描述：“并行运行多个代理，同时运行不同的浏览器实例”
+图标：“复制”
 ---
 
 ```python
@@ -18,30 +18,30 @@ async def main():
 		for i in range(3)
 	]
 
-	# Create 3 agents with different tasks
+    # 创建3个执行不同任务的代理人
 	agents = [
 		Agent(
-			task='Search for "browser automation" on Google',
+			task='在谷歌上搜索“浏览器自动化”',
 			browser=browsers[0],
 			llm=ChatOpenAI(model='gpt-4.1-mini'),
 		),
 		Agent(
-			task='Search for "AI agents" on DuckDuckGo',
+			task='在DuckDuckGo上搜索“AI agents”',
 			browser=browsers[1],
 			llm=ChatOpenAI(model='gpt-4.1-mini'),
 		),
 		Agent(
-			task='Visit Wikipedia and search for "web scraping"',
+			task='访问维基百科并搜索“网页爬虫”',
 			browser=browsers[2],
 			llm=ChatOpenAI(model='gpt-4.1-mini'),
 		),
 	]
 
-	# Run all agents in parallel
+    # 所有特工并行运行
 	tasks = [agent.run() for agent in agents]
 	results = await asyncio.gather(*tasks, return_exceptions=True)
 
-	print('🎉 All agents completed!')
+	print('🎉 所有特工都完成了！')
 ```
 
-> **Note:** This is experimental, and agents might conflict each other.
+> **注：** 这是实验性质，代理之间可能会冲突。

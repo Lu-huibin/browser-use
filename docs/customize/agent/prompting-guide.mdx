@@ -1,20 +1,19 @@
 ---
-title: "Prompting Guide"
-description: "Tips and tricks "
-icon: "lightbulb"
+标题：“提示指南”
+描述：“技巧与窍门”
+图标：“灯泡”
 ---
+提示可以大幅提升性能，解决库现有的局限性。
 
-Prompting can drastically improve performance and solve existing limitations of the library.
+### 1.具体与开放式
 
-### 1. Be Specific vs Open-Ended
-
-**✅ Specific (Recommended)**
+** ✅ 具体（推荐）**
 ```python
 task = """
-1. Go to https://quotes.toscrape.com/
-2. Use extract action with the query "first 3 quotes with their authors"
-3. Save results to quotes.csv using write_file action
-4. Do a google search for the first quote and find when it was written
+1. 去 https://quotes.toscrape.com/
+2. 使用抽取作，查询“前3句引语及其作者”
+3. 通过write_file动作保存结果quotes.csv
+4. 在谷歌上搜索第一句名言，找到它写作的时间
 """
 ```
 

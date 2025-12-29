@@ -1,122 +1,119 @@
 ---
-title: "All Parameters"
-description: "Complete reference for all browser configuration options"
-icon: "sliders"
-mode: "wide"
+标题：“所有参数”
+描述：“所有浏览器配置选项的完整参考”
+图标：“滑块”
+模式：“广角”
 ---
 
 <Note>
-The `Browser` instance also provides all [Actor](/customize/actor/all-parameters) methods for direct browser control (page management, element interactions, etc.).
+“浏览器”实例还提供了所有 [Actor]（/customize/actor/all-parameters） 方法，用于直接控制浏览器（页面管理、元素交互等）。
 </Note>
 
-## Core Settings
+## 核心设定
 
-- `cdp_url`: CDP URL for connecting to existing browser instance (e.g., `"http://localhost:9222"`)
+- 'cdp_url'：用于连接现有浏览器实例的CDP URL（例如，'“http://localhost:9222”''）
 
-## Display & Appearance
+## 展示与外观
 
-- `headless` (default: `None`): Run browser without UI. Auto-detects based on display availability (`True`/`False`/`None`)
-- `window_size`: Browser window size for headful mode. Use dict `{'width': 1920, 'height': 1080}` or `ViewportSize` object
-- `window_position` (default: `{'width': 0, 'height': 0}`): Window position from top-left corner in pixels
-- `viewport`: Content area size, same format as `window_size`. Use `{'width': 1280, 'height': 720}` or `ViewportSize` object
-- `no_viewport` (default: `None`): Disable viewport emulation, content fits to window size
-- `device_scale_factor`: Device scale factor (DPI). Set to `2.0` or `3.0` for high-resolution screenshots
+- “headless”（默认：'无'）：运行浏览器，无需 UI。基于显示可用性（“true”/“False”/“None”）自动检测
+- 'window_size'：头部模式的浏览器窗口大小。使用 dict '{'width'： 1920， 'height'： 1080}' 或 'ViewportSize' 对象
+- 'window_position'（默认：'{'width'： 0， 'height'： 0}'）：从左上角到窗口的位置（像素单位）
+- “视口”：内容区域大小，格式与“window_size”相同。使用“{'width'： 1280， 'height'： 720}' 或 'ViewportSize' 对象
+- “no_viewport”（默认：“无”）：禁用视口模拟，内容符合窗口大小
+- “device_scale_factor”：器件比例因子（DPI）。高分辨率截图时设置为“2.0”或“3.0”
+## 浏览器行为
 
-## Browser Behavior
+- 'keep_alive'（默认：'无'）：代理完成后保持浏览器运行
+- “allowed_domains”：限制导航至特定领域。领域模式格式：
+  - “example.com” - 仅匹配“https://example.com/*”
+  - ''*.example.com' - 匹配 'https://example.com/*' 及任意子域 'https：//*.example.com/*'
+  - 'http*example.com'' - 匹配'http://'和'https://'协议
+  - “chrome-extension{*''” - 匹配任何Chrome扩展的URL。
+  - **安全性**：顶级域名中的万能字元（例如，'example.*'）**不允许**用于安全
+  - 使用诸如“['*.google.com”、“https://example.com”、“chrome-extension{*']' 这样的列表
+  - **性能**：拥有100+域的列表会自动优化为O（1）查找的集合。优化列表禁用模式匹配。“www.example.com”和“example.com”两种变体都会自动检查。
+- “prohibited_domains”：阻止访问特定域名。使用与“allowed_domains”相同的图案格式。当“allowed_domains”和“prohibited_domains”同时设置时，“allowed_domains”优先。示例：
+  - '['pornhub.com'， '*.gambling-site.net']'' - 屏蔽特定网站及所有子域名
+  - '['https://explicit-content.org']'' - 块特定协议/域组合
+  - **性能**：拥有100+域的列表会自动优化为O（1）查找集（与“allowed_domains”相同）
+- 'enable_default_extensions'（默认：“True”）：加载自动化扩展（uBlock Origin、cookie handlers、ClearURLs）
+- 'cross_origin_iframes'（默认：'False'）：启用跨源iframe支持（可能增加复杂性）
+- 'is_local'（默认：'True'）：是否为本地浏览器实例。远程浏览器设置为“False”。如果我们设置了“executable_path”，它会自动被设置为“True”。这会影响你的下载行为。
 
-- `keep_alive` (default: `None`): Keep browser running after agent completes
-- `allowed_domains`: Restrict navigation to specific domains. Domain pattern formats:
-  - `'example.com'` - Matches only `https://example.com/*`
-  - `'*.example.com'` - Matches `https://example.com/*` and any subdomain `https://*.example.com/*`
-  - `'http*://example.com'` - Matches both `http://` and `https://` protocols
-  - `'chrome-extension://*'` - Matches any Chrome extension URL
-  - **Security**: Wildcards in TLD (e.g., `example.*`) are **not allowed** for security
-  - Use list like `['*.google.com', 'https://example.com', 'chrome-extension://*']`
-  - **Performance**: Lists with 100+ domains are automatically optimized to sets for O(1) lookup. Pattern matching is disabled for optimized lists. Both `www.example.com` and `example.com` variants are checked automatically.
-- `prohibited_domains`: Block navigation to specific domains. Uses same pattern formats as `allowed_domains`. When both `allowed_domains` and `prohibited_domains` are set, `allowed_domains` takes precedence. Examples:
-  - `['pornhub.com', '*.gambling-site.net']` - Block specific sites and all subdomains
-  - `['https://explicit-content.org']` - Block specific protocol/domain combination
-  - **Performance**: Lists with 100+ domains are automatically optimized to sets for O(1) lookup (same as `allowed_domains`)
-- `enable_default_extensions` (default: `True`): Load automation extensions (uBlock Origin, cookie handlers, ClearURLs)
-- `cross_origin_iframes` (default: `False`): Enable cross-origin iframe support (may cause complexity)
-- `is_local` (default: `True`): Whether this is a local browser instance. Set to `False` for remote browsers. If we have a `executable_path` set, it will be automatically set to `True`. This can effect your download behavior.
+## 用户数据与个人资料
 
-## User Data & Profiles
+- “user_data_dir”（默认：自动生成临时）：浏览器配置文件数据目录。无痕模式使用“无”。
+- “profile_directory”（默认：“Default”）：Chrome 配置文件子目录名称（“Profile 1”、“Work Profile”等）
+- “storage_state”：浏览器存储状态（cookies，localStorage）。可以是文件路径字符串或字元对象
+## 网络与安全
 
-- `user_data_dir` (default: auto-generated temp): Directory for browser profile data. Use `None` for incognito mode
-- `profile_directory` (default: `'Default'`): Chrome profile subdirectory name (`'Profile 1'`, `'Work Profile'`, etc.)
-- `storage_state`: Browser storage state (cookies, localStorage). Can be file path string or dict object
+- 'proxy'：使用'ProxySettings（server='http：//host：8080'， bypass='localhost，127.0.0.1'， username='user'， password='pass''）'进行代理配置
+- “权限”（默认：“['clipboardReadWrite'， 'notifications']'）：浏览器授予的权限。使用诸如“['摄像头'， '麦克风'， '地理位置']这样的列表。
 
-## Network & Security
+- “头部”：连接请求的额外HTTP头（仅限远程浏览器）
 
-- `proxy`: Proxy configuration using `ProxySettings(server='http://host:8080', bypass='localhost,127.0.0.1', username='user', password='pass')`
-- `permissions` (default: `['clipboardReadWrite', 'notifications']`): Browser permissions to grant. Use list like `['camera', 'microphone', 'geolocation']`
+## 浏览器启动
 
-- `headers`: Additional HTTP headers for connect requests (remote browsers only)
+- “executable_path”：用于自定义安装的浏览器可执行文件路径。平台示例：
+  - macOS：“/应用/谷歌 Chrome.app/Contents/MacOS/Google Chrome”
+  - Windows：“C：\\Program Files\\Google\\Chrome\\Application\\chrome.exe”
+  - Linux：“/usr/bin/google-chrome”
+- 'channel'：浏览器通道（'chromium'''， 'chrome'， 'chrome-beta''， 'msedge'' 等）
+- 'args'：浏览器的额外命令行参数。使用列表格式：'['--disable-gpu'， '--custom-flag=value'， '--another-flag']''
+- 'env'：浏览器进程的环境变量。用 dict 比如 '{'DISPLAY'： '：0'， 'LANG'： 'en_US.UTF-8'， 'CUSTOM_VAR'： 'test'}'
+- 'chromium_sandbox'（默认：True，Docker中除外）：启用Chromium沙箱以保障安全
+- 'devtools'（默认：'False'）：自动打开 DevTools 面板（需要 'headless=False'）
+- “ignore_default_args”：默认可禁用的 args 列表，或 “True” 以禁用全部。使用类似“['--enable-automation'， '--disable-extensions']' 这样的列表
 
-## Browser Launch
+## 时机与表现
 
-- `executable_path`: Path to browser executable for custom installations. Platform examples:
-  - macOS: `'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'`
-  - Windows: `'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe'`
-  - Linux: `'/usr/bin/google-chrome'`
-- `channel`: Browser channel (`'chromium'`, `'chrome'`, `'chrome-beta'`, `'msedge'`, etc.)
-- `args`: Additional command-line arguments for the browser. Use list format: `['--disable-gpu', '--custom-flag=value', '--another-flag']`
-- `env`: Environment variables for browser process. Use dict like `{'DISPLAY': ':0', 'LANG': 'en_US.UTF-8', 'CUSTOM_VAR': 'test'}`
-- `chromium_sandbox` (default: `True` except in Docker): Enable Chromium sandboxing for security
-- `devtools` (default: `False`): Open DevTools panel automatically (requires `headless=False`)
-- `ignore_default_args`: List of default args to disable, or `True` to disable all. Use list like `['--enable-automation', '--disable-extensions']`
+- 'minimum_wait_page_load_time'（默认：'0.25'）：捕获页面状态前的最小等待时间（秒数）
+- 'wait_for_network_idle_page_load_time'（默认：'0.5'）：等待网络活动停止的时间
+- 'wait_between_actions'（默认：'0.5'）：代理动作间等待时间（秒数）
+## 人工智能集成
 
-## Timing & Performance
+- “highlight_elements”（默认：“True”）：突出显示AI视觉的交互元素
+- 'paint_order_filtering'（默认：'True'）：启用绘画顺序过滤，通过移除隐藏在其他元素后面的元素来优化DOM树。略带实验性
 
-- `minimum_wait_page_load_time` (default: `0.25`): Minimum time to wait before capturing page state in seconds
-- `wait_for_network_idle_page_load_time` (default: `0.5`): Time to wait for network activity to cease in seconds
-- `wait_between_actions` (default: `0.5`): Time to wait between agent actions in seconds
+## 下载与文件
 
-## AI Integration
+- “accept_downloads”（默认：“True”）：自动接受所有下载
+- “downloads_path”：下载文件目录。使用字符串，比如“./downloads”或“Path”对象
+- “auto_download_pdfs”（默认：“True”）：自动下载PDF而非浏览器查看
 
-- `highlight_elements` (default: `True`): Highlight interactive elements for AI vision
-- `paint_order_filtering` (default: `True`): Enable paint order filtering to optimize DOM tree by removing elements hidden behind others. Slightly experimental
+## 设备仿真
 
-## Downloads & Files
+- 'user_agent'：自定义用户代理字符串。示例：“Mozilla/5.0（iPhone;CPU iPhone OS 14_0，类似Mac OS X）''
+- “屏幕”：屏幕尺寸信息，格式与“window_size屏幕”相同
 
-- `accept_downloads` (default: `True`): Automatically accept all downloads
-- `downloads_path`: Directory for downloaded files. Use string like `'./downloads'` or `Path` object
-- `auto_download_pdfs` (default: `True`): Automatically download PDFs instead of viewing in browser
+## 录制与调试
 
-## Device Emulation
+- 'record_video_dir'：用于将视频录制保存为“.mp4”文件的目录
+- “record_video_size”（默认：“ViewportSize”）：视频录制的帧大小（宽度，高度）。
+- “record_video_framerate”（默认：30）：用于视频录制的帧率。
+- 'record_har_path'：保存网络追踪文件的路径，格式为 '.har'
+- 'traces_dir'：用于保存完整跟踪文件以便调试的目录
+- 'record_har_content'（默认：'embed'）：HAR内容模式（“省略”、“嵌入”、“附加”）
+- “record_har_mode”（默认：“full”）：HAR录制模式（“full”、“minimal”）
 
-- `user_agent`: Custom user agent string. Example: `'Mozilla/5.0 (iPhone; CPU iPhone OS 14_0 like Mac OS X)'`
-- `screen`: Screen size information, same format as `window_size`
+## 高级选项
 
-## Recording & Debugging
-
-- `record_video_dir`: Directory to save video recordings as `.mp4` files
-- `record_video_size` (default: `ViewportSize`): The frame size (width, height) of the video recording.
-- `record_video_framerate` (default: `30`): The framerate to use for the video recording.
-- `record_har_path`: Path to save network trace files as `.har` format
-- `traces_dir`: Directory to save complete trace files for debugging
-- `record_har_content` (default: `'embed'`): HAR content mode (`'omit'`, `'embed'`, `'attach'`)
-- `record_har_mode` (default: `'full'`): HAR recording mode (`'full'`, `'minimal'`)
-
-## Advanced Options
-
-- `disable_security` (default: `False`): ⚠️ **NOT RECOMMENDED** - Disables all browser security features
-- `deterministic_rendering` (default: `False`): ⚠️ **NOT RECOMMENDED** - Forces consistent rendering but reduces performance
+- 'disable_security'（默认：'False'）：⚠️**不推荐** - 禁用所有浏览器安全功能
+- 'deterministic_rendering'（默认：'False'）：⚠️**不推荐** - 强制渲染一致但降低性能
 
 ---
 
-## Outdated BrowserProfile
+## 过时的浏览器配置文件
 
-For backward compatibility, you can pass all the parameters from above to the `BrowserProfile` and then to the `Browser`.
+为了向后兼容，你可以把上面所有参数传递到“浏览器配置文件”，然后再传递给“浏览器”。
 
-```python
-from browser_use import BrowserProfile
-profile = BrowserProfile(headless=False)
-browser = Browser(browser_profile=profile)
+“派森
+从browser_use导入 BrowserProfile
+profile = BrowserProfile（headless=False）
+浏览器 = 浏览器（browser_profile=配置文件）
 ```
 
-## Browser vs BrowserSession
+## 浏览器 vs 浏览器会话
 
-`Browser` is an alias for `BrowserSession` - they are exactly the same class:
-Use `Browser` for cleaner, more intuitive code.
+“Browser”是“BrowserSession”的别名——它们完全是同一类：
+使用“浏览器”，代码更简洁直观。

@@ -1,11 +1,11 @@
 ---
-title: "Examples"
-description: "Comprehensive examples for Browser Actor automation tasks including forms, JavaScript, mouse operations, and AI features"
-icon: "code-simple"
-mode: "wide"
+标题：“示例”
+描述：“浏览器演员自动化任务的全面示例，包括表单、JavaScript、鼠标作和人工智能功能”
+图标：“代码简单”
+模式：“广角”
 ---
 
-## Page Management
+## 页面管理
 
 ```python
 from browser_use import Browser
@@ -101,11 +101,10 @@ await mouse.up()
 # Scroll
 await mouse.scroll(x=0, y=100, delta_y=-500)
 ```
+## 最佳实践
 
-## Best Practices
-
-- Use `asyncio.sleep()` after actions that trigger navigation
-- Check URL/title changes to verify state transitions
-- Always check if elements exist before interaction
-- Implement retry logic for flaky elements
-- Call `browser.stop()` to clean up resources
+- 在触发导航的作后使用 'asyncio.sleep（）'
+- 检查URL/标题更改以验证状态转换
+- 始终检查相互作用前元素是否存在
+- 为不稳定元素实现重试逻辑
+- 调用 'browser.stop（）' 以清理资源

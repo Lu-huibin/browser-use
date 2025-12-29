@@ -1,15 +1,15 @@
 ---
-title: "All Parameters"
-description: "Complete API reference for Browser Actor classes, methods, and parameters including BrowserSession, Page, Element, and Mouse"
-icon: "list"
-mode: "wide"
+标题：“所有参数”
+描述：“浏览器演员类、方法和参数的完整API参考，包括BrowserSession、Page、Element和Mouse”
+图标：“列表”
+模式：“广角”
 ---
 
-## Browser (BrowserSession)
+## 浏览器（BrowserSession）
 
-Main browser session manager.
+主浏览器会话管理器。
 
-### Key Methods
+### 关键方法
 
 ```python
 from browser_use import Browser
@@ -27,61 +27,61 @@ await browser.close_page(page)
 await browser.stop()
 ```
 
-### Constructor Parameters
+### 构造者参数
 
-See [Browser Parameters](../browser/all-parameters) for complete configuration options.
+参见[浏览器参数]（../browser/all-parameters）以提供完整的配置选项。
 
-## Page
+## 页面
 
-Browser tab/iframe for page-level operations.
+浏览器标签/iframe用于页面级作。
 
-### Navigation
-- `goto(url: str)` - Navigate to URL
-- `go_back()`, `go_forward()`, `reload()` - History navigation
+### 导航
+- 'goto（url： str）' - 导航至URL
+- 'go_back（）'， 'go_forward（）'， 'reload（）' - 历史导航
 
-### Element Finding
-- `get_elements_by_css_selector(selector: str) -> list[Element]` - CSS selector
-- `get_element(backend_node_id: int) -> Element` - By CDP node ID
-- `get_element_by_prompt(prompt: str, llm) -> Element | None` - AI-powered
-- `must_get_element_by_prompt(prompt: str, llm) -> Element` - AI (raises if not found)
+### 元素寻找
+- 'get_elements_by_css_selector（选择器：str） -> list[Element]' - CSS 选择器
+- 'get_element（backend_node_id： int） -> Element' - 按 CDP 节点 ID 表示
+- 'get_element_by_prompt（提示词：力量，LLM）-> 元素 |“无”——AI驱动
+- 'must_get_element_by_prompt（提示词：力量，LLM）->元素' - AI（未找到则提升）
 
-### JavaScript & Controls
-- `evaluate(page_function: str, *args) -> str` - Execute JS (arrow function format)
-- `press(key: str)` - Send keyboard input ("Enter", "Control+A")
-- `set_viewport_size(width: int, height: int)` - Set viewport
-- `screenshot(format='jpeg', quality=None) -> str` - Take screenshot
+### JavaScript 与控制
+- 'evaluate（page_function： str， *args） -> str' - 执行JS（箭头函数格式）
+- 'press（key： str）' - 发送键盘输入（“Enter”、“Control+A”）
+- 'set_viewport_size（宽度：int，高度：int）' - 设置视口
+- '截图（format='jpeg'， quality=None） -str' > - 截取
 
-### Information
-- `get_url() -> str`, `get_title() -> str` - Page info
-- `mouse -> Mouse` - Get mouse interface
+### 信息
+- 'get_url（） -> str'， 'get_title（） -> str' - 页面信息
+- “鼠标 -> 鼠标” - 获取鼠标界面
 
-### AI Features
-- `extract_content(prompt: str, structured_output: type[T], llm) -> T` - Extract data
+### 人工智能功能
+- 'extract_content（提示词：str，structured_output：type[T]， LLM）-> T' - 提取数据
 
-## Element
+## 元素
 
-Individual DOM element interactions.
+单个DOM元素的交互。
 
-### Interactions
-- `click(button='left', click_count=1, modifiers=None)` - Click element
-- `fill(text: str, clear=True)` - Fill input
-- `hover()`, `focus()` - Mouse/focus actions
-- `check()` - Toggle checkbox/radio
-- `select_option(values: str | list[str])` - Select dropdown options
-- `drag_to(target: Element | Position)` - Drag and drop
+### 互动
+- 'click（button='left'， click_count=1， modifiers=None）' - 点击元素
+- 'fill（text： str， clear=True）' - 填充输入
+- 'hover（）'， 'focus（）' - 鼠标/焦点作
+- 'check（）' - 切换复选框/无线电
+- 'select_option（值：str | list[str]）' - 选择下拉选项
+- 'drag_to（目标：元素 |Position）' - 拖放
 
-### Properties
-- `get_attribute(name: str) -> str | None` - Get attribute
-- `get_bounding_box() -> BoundingBox | None` - Position/size
-- `get_basic_info() -> ElementInfo` - Complete element info
-- `screenshot(format='jpeg') -> str` - Element screenshot
+### 地产
+- 'get_attribute（名称：STR） -> STR |无 - 获得属性
+- 'get_bounding_box（） -> BoundingBox |无 - 位置/体型
+- 'get_basic_info（） -> ElementInfo' - 完整的元素信息
+- 'screenshot（format='jpeg'） -> str' - 元素截图
 
-## Mouse
+## 老鼠
 
-Coordinate-based mouse operations.
+基于坐标的鼠标作。
 
-### Operations
-- `click(x: int, y: int, button='left', click_count=1)` - Click at coordinates
-- `move(x: int, y: int, steps=1)` - Move mouse
-- `down(button='left')`, `up(button='left')` - Press/release buttons
-- `scroll(x=0, y=0, delta_x=None, delta_y=None)` - Scroll at coordinates
+### 行动
+- 'click（x： int， y： int， button='left'， click_count=1）' - 点击坐标
+- 'move（x： int， y： int， steps=1）' - 移动鼠标
+- 'down（button='left'）'， 'up（button='left'）' - 按下/释放按钮
+- 'scroll（x=0， y=0， delta_x=None， delta_y=None）' - 坐标处滚动
