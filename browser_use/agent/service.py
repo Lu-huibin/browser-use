@@ -135,15 +135,15 @@ class Agent(Generic[Context, AgentStructuredOutput]):
 		browser_profile: BrowserProfile | None = None,
 		browser_session: BrowserSession | None = None,
 		browser: Browser | None = None,  # Alias for browser_session
-		tools: Tools[Context] | None = None,
-		controller: Tools[Context] | None = None,  # Alias for tools
-		# Skills integration
-		skill_ids: list[str | Literal['*']] | None = None,
-		skills: list[str | Literal['*']] | None = None,  # Alias for skill_ids
-		skill_service: Any | None = None,
-		# Initial agent run parameters
-		sensitive_data: dict[str, str | dict[str, str]] | None = None,
-		initial_actions: list[dict[str, dict[str, Any]]] | None = None,
+			tools: Tools[Context] | None = None,
+			controller: Tools[Context] | None = None,  # Alias for tools
+			# Skills integration
+			skill_ids: list[str | Literal['*']] | None = None,
+			skills: list[str | Literal['*']] | None = None,  # Alias for skill_ids
+			skill_service: Any | None = None,
+			# Initial agent run parameters
+			sensitive_data: dict[str, str | dict[str, str]] | None = None,
+			initial_actions: list[dict[str, dict[str, Any]]] | None = None,
 		# Cloud Callbacks
 		register_new_step_callback: (
 			Callable[['BrowserStateSummary', 'AgentOutput', int], None]  # Sync callback
