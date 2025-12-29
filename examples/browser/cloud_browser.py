@@ -32,7 +32,6 @@ async def basic():
 async def full_config():
 	"""Full cloud configuration with specific profile."""
 	browser = Browser(
-		# cloud_profile_id='21182245-590f-4712-8888-9611651a024c',
 		cloud_proxy_country_code='jp',
 		cloud_timeout=60,
 	)
