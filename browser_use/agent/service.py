@@ -325,17 +325,17 @@ class Agent(Generic[Context, AgentStructuredOutput]):
 
 			self.skill_service = SkillService(skill_ids=skill_ids)
 
-		# Structured output - use explicit param or detect from tools
+		# 结构化输出——使用显式参数或从工具中检测
 		tools_output_model = self.tools.get_output_model()
 		if output_model_schema is not None and tools_output_model is not None:
-			# Both provided - warn if they differ
+			# 两者都提供了——如果有差异请提醒
 			if output_model_schema is not tools_output_model:
 				logger.warning(
 					f'output_model_schema ({output_model_schema.__name__}) differs from Tools output_model '
 					f'({tools_output_model.__name__}). Using Agent output_model_schema.'
 				)
 		elif output_model_schema is None and tools_output_model is not None:
-			# Only tools has it - use that (cast is safe: both are BaseModel subclasses)
+			# 只有工具有这个功能——用那个（施法安全：两者都是基础模型子职业）
 			output_model_schema = cast(type[AgentStructuredOutput], tools_output_model)
 		self.output_model_schema = output_model_schema
 		if self.output_model_schema is not None:
@@ -987,18 +987,18 @@ class Agent(Generic[Context, AgentStructuredOutput]):
 		browser_state_summary = None
 
 		try:
-			# Phase 1: Prepare context and timing
+			# 第一阶段：准备上下文和时间
 			browser_state_summary = await self._prepare_context(step_info)
 
-			# Phase 2: Get model output and execute actions
+			# 第二阶段：获取模型输出并执行动作
 			await self._get_next_action(browser_state_summary)
 			await self._execute_actions()
 
-			# Phase 3: Post-processing
+			# 第三阶段：后处理
 			await self._post_process()
 
 		except Exception as e:
-			# Handle ALL exceptions in one place
+			# 把所有例外都集中在一个地方
 			await self._handle_step_error(e)
 
 		finally:
@@ -2230,13 +2230,13 @@ class Agent(Generic[Context, AgentStructuredOutput]):
 			while self.state.n_steps <= max_steps:
 				current_step = self.state.n_steps - 1  # Convert to 0-indexed for step_info
 
-				# Use the consolidated pause state management
+				# 使用合并暂停状态管理
 				if self.state.paused:
 					self.logger.debug(f'⏸️ Step {self.state.n_steps}: Agent paused, waiting to resume...')
 					await self._external_pause_event.wait()
 					signal_handler.reset()
 
-				# Check if we should stop due to too many failures, if final_response_after_failure is True, we try one last time
+				# 检查是否因失败太多而停止，如果final_response_after_failure是真的，我们再试最后一次
 				if (self.state.consecutive_failures) >= self.settings.max_failures + int(
 					self.settings.final_response_after_failure
 				):
@@ -2244,7 +2244,7 @@ class Agent(Generic[Context, AgentStructuredOutput]):
 					agent_run_error = f'Stopped due to {self.settings.max_failures} consecutive failures'
 					break
 
-				# Check control flags before each step
+				# 每步前检查控制标志
 				if self.state.stopped:
 					self.logger.info('🛑 Agent stopped')
 					agent_run_error = 'Agent stopped programmatically'
@@ -2254,7 +2254,7 @@ class Agent(Generic[Context, AgentStructuredOutput]):
 				is_done = await self._execute_step(current_step, max_steps, step_info, on_step_start, on_step_end)
 
 				if is_done:
-					# Agent has marked the task as done
+					# 代理已标记任务完成
 					if self._demo_mode_enabled and self.history.history:
 						final_result_text = self.history.final_result() or 'Task completed'
 						await self._demo_mode_log(f'Final Result: {final_result_text}', 'success', {'tag': 'task'})
@@ -2283,7 +2283,7 @@ class Agent(Generic[Context, AgentStructuredOutput]):
 
 			self.history.usage = await self.token_cost_service.get_usage_summary()
 
-			# set the model output schema and call it on the fly
+			# 设置模型输出模式并实时调用
 			if self.history._output_model_schema is None and self.output_model_schema is not None:
 				self.history._output_model_schema = self.output_model_schema
 
@@ -2308,29 +2308,29 @@ class Agent(Generic[Context, AgentStructuredOutput]):
 				await asyncio.sleep(30)
 			if agent_run_error:
 				await self._demo_mode_log(f'Agent stopped: {agent_run_error}', 'error', {'tag': 'run'})
-			# Log token usage summary
+			# 日志令牌使用摘要
 			await self.token_cost_service.log_usage_summary()
 
-			# Unregister signal handlers before cleanup
+			# 清理前取消注册信号处理
 			signal_handler.unregister()
 
-			if not self._force_exit_telemetry_logged:  # MODIFIED: Check the flag
+			if not self._force_exit_telemetry_logged:  # 修改：检查旗帜
 				try:
 					self._log_agent_event(max_steps=max_steps, agent_run_error=agent_run_error)
-				except Exception as log_e:  # Catch potential errors during logging itself
+				except Exception as log_e:  # 在日志记录过程中发现潜在错误
 					self.logger.error(f'Failed to log telemetry event: {log_e}', exc_info=True)
 			else:
-				# ADDED: Info message when custom telemetry for SIGINT was already logged
+				# 新增：当自定义SIGINT遥测已被记录时，信息提示
 				self.logger.debug('Telemetry for force exit (SIGINT) was logged by custom exit callback.')
 
-			# NOTE: CreateAgentSessionEvent and CreateAgentTaskEvent are now emitted at the START of run()
-			# to match backend requirements for CREATE events to be fired when entities are created,
-			# not when they are completed
+			# 注意：CreateAgentSessionEvent 和 CreateAgentTaskEvent 现在在 run（） 开始时被发出。
+			# 以匹配创建实体时触发 CREATE 事件的后端要求，
+			# 完成后就不行
 
-			# Emit UpdateAgentTaskEvent at the END of run() with final task state
+			# 在run（）结束时发出UpdateAgentTaskEvent，并带有最终任务状态
 			self.eventbus.dispatch(UpdateAgentTaskEvent.from_agent(self))
 
-			# Generate GIF if needed before stopping event bus
+			# 如有需要，在停止事件总线前生成GIF。
 			if self.settings.generate_gif:
 				output_path: str = 'agent_history.gif'
 				if isinstance(self.settings.generate_gif, str):
@@ -2346,11 +2346,11 @@ class Agent(Generic[Context, AgentStructuredOutput]):
 					output_event = await CreateAgentOutputFileEvent.from_agent_and_file(self, output_path)
 					self.eventbus.dispatch(output_event)
 
-			# Log final messages to user based on outcome
+			# 根据结果向用户记录最终消息
 			self._log_final_outcome_messages()
 
-			# Stop the event bus gracefully, waiting for all events to be processed
-			# Use longer timeout to avoid deadlocks in tests with multiple agents
+			# 优雅地停下活动巴士，等待所有事件处理完毕
+			# 使用更长的超时时间以避免多代理测试中的僵局
 			await self.eventbus.stop(timeout=3.0)
 
 			await self.close()

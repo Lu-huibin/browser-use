@@ -63,7 +63,7 @@ class AgentState(BaseModel):
 
 	agent_id: str = Field(default_factory=uuid7str)
 	n_steps: int = 1
-	consecutive_failures: int = 0
+	consecutive_failures: int = 0 # 基础设施级失败信号，不是智能失败
 	last_result: list[ActionResult] | None = None
 	last_plan: str | None = None
 	last_model_output: AgentOutput | None = None
