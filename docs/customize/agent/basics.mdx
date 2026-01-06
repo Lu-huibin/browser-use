@@ -1,8 +1,8 @@
 ---
-标题：“基础知识”
-描述：“”
-图标：“播放”
-模式：“广角”
+title: "Basics"
+description: ""
+icon: "play"
+mode: "wide"
 ---
 
 
@@ -18,11 +18,12 @@ async def main():
     history = await agent.run(max_steps=100)
 ```
 
-- “任务”：你想自动化的任务。
-- 'LLM'：你最喜欢的LLM。参见 <a href=“/customize/supported-models”>Supported Models</a>。
+- `task`: The task you want to automate.
+- `llm`: Your favorite LLM. See <a href="/supported-models">Supported Models</a>.
 
-该代理通过异步 'run（）' 方法执行：
 
-- “max_steps”（默认：“100”）：代理可采取的最大步数。
+The agent is executed using the async `run()` method:
 
-请查看所有可自定义参数<a href = “/customize/agent/all-parameters”></a>。
+- `max_steps` (default: `100`): Maximum number of steps an agent can take.
+
+Check out all customizable parameters <a href = "/customize/agent/all-parameters"> here</a>. 
